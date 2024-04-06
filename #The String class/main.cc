@@ -1,36 +1,61 @@
 #include <iostream>
 
+using namespace std::string_literals;
+
 class String
 {
-	std::string s;
+	char* data;
+	int size;
 
 public:
-	String() : s("") {}
-	String(const std::string& arg) : s(arg) {}
-	String(const String& arg) : s(arg.s) {}
-
-	String& operator=(const std::string& arg)
+	String(const std::string& s) : size(s.size())
 	{
-		s = arg;
+		data = new char[size];
+		for (int i = 0; i < size; i++)
+			data[i] = s[i];
+	}
+
+	String(const String& s) : size(s.size)
+	{
+		data = new char[size];
+		for (int i = 0; i < size; i++)
+			data[i] = s.data[i];
+	}
+	~String()
+	{
+		delete[] data;
+	}
+
+	String& operator=(const String& s)
+	{
+		if (&s == this)
+			return *this;
+
+		delete[] data;
+		size = s.size;
+		data = new char[size];
+		for (int i = 0; i < size; i++)
+			data[i] = s.data[i];
 		return *this;
 	}
 
-	void print() const
+	int length()
 	{
-		std::cout << s << std::endl;
+		return size;
 	}
 };
 
 int main()
 {
-	String w{"world"};
-	String bang{"bang"};
-	String bang2;
-	bang = w;
-	bang2 = w;
+	String str{"1"s};
+	String str2{"Two"s};
+	String str3(str2);
 
-	std::cout << "w = "; w.print();
-	std::cout << "bang = "; bang.print();
-	std::cout << "bang2 = "; bang2.print();
+	std::cout << "Str2 size = " << str2.length() << std::endl;
+	std::cout << "Str3 size = " << str3.length() << std::endl;
+	str2 = str2;
+	std::cout << "Str2 size = " << str2.length() << std::endl;
+	std::cout << "Str size = " << str.length() << std::endl;
+
 	return EXIT_SUCCESS;
 }
