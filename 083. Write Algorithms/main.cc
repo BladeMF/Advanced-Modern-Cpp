@@ -11,36 +11,35 @@ void print_vector(const std::vector<T>& v)
 	std::cout << "}" << std::endl;
 }
 
-void demo_fill()
+void demo_replace()
 {
-	std::vector<int> v(10);
-	std::fill(v.begin(), v.end(), 42);
+	std::vector<int> v{1, 2, 3, 4, 5};
+	std::replace(v.begin(), v.end(), 3, 10);
 	print_vector(v);
 }
 
-void demo_fill_n()
+void demo_replace_copy()
 {
-	std::vector<int> v(0);
-	std::fill_n(std::back_insert_iterator(v), 5, 42);
+	std::vector<int> v{1, 2, 3, 4, 5};
+	std::vector<int> v2(0);
+	std::replace_copy(v.begin(), v.end(), std::back_insert_iterator(v2), 3, 10);
 	print_vector(v);
+	print_vector(v2);
 }
 
-void demo_generate()
+void demo_replace_if()
 {
-	std::vector<int> v(10);
-	std::generate(v.begin(), v.end(), []() { return 42; });
-	print_vector(v);
-}
-
-void demo_generate_n()
-{
-	std::vector<int> v(0);
-	std::generate_n(std::back_insert_iterator(v), 5, []() { return 42; });
+	std::vector<int> v{1, 2, 3, 4, 5};
+	std::replace_if(
+		v.begin(), v.end(),
+		[](int i) { return i == 3; },
+		10
+	);
 	print_vector(v);
 }
 
 int main()
 {
-	demo_generate_n();
+	demo_replace_copy();
 	return EXIT_SUCCESS;
 }
